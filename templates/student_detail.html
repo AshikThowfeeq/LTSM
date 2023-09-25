@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Detail</title>
+</head>
+<style>
+    html, body {
+        height: 100%;
+        background: linear-gradient(135deg, #3494E6, #EC6EAD);
+        font-family: Arial, sans-serif;
+    }
+
+    h1,h2 {
+        color: #333;
+        text-align: center;
+    }
+
+    .student-info {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin: 20px auto;
+        width: 20%;
+    }
+
+    table {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #0074D9;
+        color: #fff;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    a {
+        text-decoration: none;
+        color: #0074D9;
+    }
+
+    /* Style for the green tick */
+    .tick {
+        color: green;
+    }
+
+    /* Style for the red cross */
+    .cross {
+        color: red;
+    }
+
+</style>
+<body>
+    <h1>Student Detail</h1>
+    
+    <div class="student-info">
+        <p>Roll No: {{ student.roll_no }}</p>
+        <p>Name: {{ student.name }}</p>
+        <p>Email: {{ student.email_id }}</p>
+        <p>Batch: {{ student.batch }}</p>
+        <p>Mentor Name: {{ student.mentor_name }}</p>
+    </div>
+
+    <h2>Attendance Records</h2>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Hour 1</th>
+            <th>Hour 2</th>
+            <th>Hour 3</th>
+            <th>Hour 4</th>
+            <th>Hour 5</th>
+            <th>Hour 6</th>
+            <th>Hour 7</th>
+            <th>Hour 8</th>
+        </tr>
+        {% for record in attendance_records %}
+            <tr>
+                <td>{{ record.date }}</td>
+                <td class="{% if record.hour_1 %}tick{% else %}cross{% endif %}">{% if record.hour_1 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                <td class="{% if record.hour_2 %}tick{% else %}cross{% endif %}">{% if record.hour_2 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                <td class="{% if record.hour_3 %}tick{% else %}cross{% endif %}">{% if record.hour_3 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                <td class="{% if record.hour_4 %}tick{% else %}cross{% endif %}">{% if record.hour_4 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                <td class="{% if record.hour_5 %}tick{% else %}cross{% endif %}">{% if record.hour_5 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                <td class="{% if record.hour_6 %}tick{% else %}cross{% endif %}">{% if record.hour_6 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                <td class="{% if record.hour_7 %}tick{% else %}cross{% endif %}">{% if record.hour_7 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                <td class="{% if record.hour_8 %}tick{% else %}cross{% endif %}">{% if record.hour_8 %}&#10004;{% else %}&#10008;{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
+
+
+

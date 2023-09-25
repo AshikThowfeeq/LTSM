@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Dashboard</title>
+</head>
+<style>
+
+    html, body {
+        height: 100%;
+        background: linear-gradient(135deg, #3494E6, #EC6EAD);
+        font-family: Arial, sans-serif;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .date-info {
+        text-align: center;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin: 20px auto;
+        width: 20%;
+    }
+
+    table {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #0074D9;
+        color: #fff;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    a {
+        text-decoration: none;
+        color: #0074D9;
+    }
+</style>
+<body>
+    <h1>Attendance Dashboard</h1>
+    <div class="date-info"><h3>{{ selected_date }}</h3></div>
+
+    <table>
+        <tr>
+            <th>Batch</th>
+            <th>Hour 1</th>
+            <th>Hour 2</th>
+            <th>Hour 3</th>
+            <th>Hour 4</th>
+            <th>Hour 5</th>
+            <th>Hour 6</th>
+            <th>Hour 7</th>
+            <th>Hour 8</th>
+            
+        </tr>
+        {% for data in attendance_data %}
+            <tr>
+                <td><a href="{% url 'batch_attendance' batch=data.email_id__batch date=selected_date %}">{{ data.email_id__batch }} batch</a></td>
+                <td>{{ data.hour_1_count }}</td>
+                <td>{{ data.hour_2_count }}</td>
+                <td>{{ data.hour_3_count }}</td>
+                <td>{{ data.hour_4_count }}</td>
+                <td>{{ data.hour_5_count }}</td>
+                <td>{{ data.hour_6_count }}</td>
+                <td>{{ data.hour_7_count }}</td>
+                <td>{{ data.hour_8_count }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
+
+
