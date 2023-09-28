@@ -1,0 +1,108 @@
+To display the data for the selected date in a pop-up window, you can achieve this using JavaScript and a modal dialog. You'll need to update your HTML template and add JavaScript to handle the pop-up behavior. Here's how you can do it:
+
+**student_table.html**:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Your HTML head content here -->
+
+    <!-- Add a link to your CSS for styling the modal -->
+    <link rel="stylesheet" href="{% static 'your_modal_style.css' %}">
+</head>
+<body>
+    <!-- ... (existing HTML content) ... -->
+    
+    <h2>Search by Date</h2>
+    <form method="get">
+        <label for="date">Date: </label>
+        <input type="date" name="date" id="date">
+        <button type="submit" id="searchButton">Search</button>
+    </form>
+
+    <!-- ... (existing HTML content) ... -->
+
+    <!-- Modal to display attendance details for the selected date -->
+    <div class="modal" id="attendanceModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Attendance Details for Selected Date</h2>
+            <table>
+                <!-- Add table headers here -->
+                <tbody id="attendanceTableBody">
+                    <!-- Data for the selected date will be displayed here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal and close button elements
+        var modal = document.getElementById('attendanceModal');
+        var closeModal = document.getElementById('closeModal');
+
+        // Get the search button element
+        var searchButton = document.getElementById('searchButton');
+
+        // Get the date input element
+        var dateInput = document.getElementById('date');
+
+        // Add a click event listener to the search button
+        searchButton.addEventListener('click', function () {
+            // Prevent the default form submission
+            event.preventDefault();
+            
+            // Get the selected date from the input
+            var selectedDate = dateInput.value;
+            
+            // You can make an AJAX request to fetch data for the selected date
+            // Replace this with your own logic to fetch data for the selected date
+            // For demonstration, we'll assume you have data in a JavaScript array
+            var data = [
+                // Replace this with your data for the selected date
+                // Each row is an object with the attendance data
+                // Example: { date: '2023-09-28', hour_1: true, hour_2: false, ... }
+                // Add data rows for the selected date here
+            ];
+
+            // Display the modal
+            modal.style.display = 'block';
+
+            // Render data in the modal content
+            var tableBody = document.getElementById('attendanceTableBody');
+            tableBody.innerHTML = ''; // Clear existing data
+
+            for (var i = 0; i < data.length; i++) {
+                var rowData = data[i];
+                var row = document.createElement('tr');
+
+                // Create table cells for each data field (e.g., date, hour_1, hour_2, ...)
+                var dateCell = document.createElement('td');
+                dateCell.textContent = rowData.date;
+                row.appendChild(dateCell);
+
+                var hour1Cell = document.createElement('td');
+                hour1Cell.textContent = rowData.hour_1 ? 'Present' : 'Absent';
+                row.appendChild(hour1Cell);
+
+                // Add similar cells for other hours
+
+                tableBody.appendChild(row);
+            }
+        });
+
+        // Add a click event listener to the close button to hide the modal
+        closeModal.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
+```
+
+In the JavaScript section, we listen for a click on the "Search" button, fetch the data for the selected date (you should replace this with your own logic to fetch data), and then display it in the modal. The modal is displayed when the search button is clicked, and it's hidden when the close button in the modal is clicked.
+
+Make sure to replace the example data array with your actual data retrieval logic, such as an AJAX request to your Django view to fetch attendance data for the selected date.
+
+Additionally, you may need to style the modal using the CSS defined in your "your_modal_style.css" file. This file should define the styles for the modal and its appearance on the page.

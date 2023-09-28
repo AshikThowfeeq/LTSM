@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+
+<style>
+    th,
+    td {
+      text-align: center;
+    }
+  
+    /* Style for the green tick */
+    .tick {
+        color: green;
+    }
+  
+    /* Style for the red cross */
+    .cross {
+        color: red;
+    }
+          /* Center the canvas container */
+          .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px; /* Adjust the height as needed */
+        }
+
+        /* Style for the canvas */
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        /* Add the following CSS rules to your stylesheet */
+.info-container {
+    display: flex;
+    flex-wrap: wrap; /* Wrap to the next line if necessary */
+}
+
+.card-description {
+    display: inline;
+    margin-right: 10px;
+    padding: 10px; /* Adjust as needed to add space between elements */
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Student: {{ student.name }}</h4>
+        <div class="info-container">
+          <p class="card-description">
+              Roll No:<code>{{ student.roll_no }}</code>
+          </p>
+          <p class="card-description">
+              Email:<code>{{ student.email_id }}</code>
+          </p>
+          <p class="card-description">
+              Batch:<code>{{ student.batch }}</code>
+          </p>
+          <p class="card-description">
+              Mentor:<code>{{ student.mentor_name }}</code>
+          </p>
+      </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                  <th>Date</th>
+                  <th>Hour 1</th>
+                  <th>Hour 2</th>
+                  <th>Hour 3</th>
+                  <th>Hour 4</th>
+                  <th>Hour 5</th>
+                  <th>Hour 6</th>
+                  <th>Hour 7</th>
+                  <th>Hour 8</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for record in attendance_records %}
+                  <tr>
+                      <td class="py-1">{{ record.date }}</td>
+                      <td class="{% if record.hour_1 %}tick{% else %}cross{% endif %}">{% if record.hour_1 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                      <td class="{% if record.hour_2 %}tick{% else %}cross{% endif %}">{% if record.hour_2 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                      <td class="{% if record.hour_3 %}tick{% else %}cross{% endif %}">{% if record.hour_3 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                      <td class="{% if record.hour_4 %}tick{% else %}cross{% endif %}">{% if record.hour_4 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                      <td class="{% if record.hour_5 %}tick{% else %}cross{% endif %}">{% if record.hour_5 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                      <td class="{% if record.hour_6 %}tick{% else %}cross{% endif %}">{% if record.hour_6 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                      <td class="{% if record.hour_7 %}tick{% else %}cross{% endif %}">{% if record.hour_7 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                      <td class="{% if record.hour_8 %}tick{% else %}cross{% endif %}">{% if record.hour_8 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                  </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<h2>Attendance Percentage</h2>
+   
+
+    <div class="row">
+      <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
+          <div class="card">
+              <div class="card-body">
+                  <h3 class="card-title">Pie chart</h3>
+                  <div class="chart-container">
+                    <canvas id="myDoughnutChart"></canvas>
+                </div>
+                 
+              </div>
+          
+          </div>
+          
+      </div>
+      <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Stats</h3>
+                <br>
+                <div>
+                  <h4 class="present" style="color: green;">Total Present </h4>
+                  <li>{{ total_true_count }}</li>   
+                </div>
+                <hr>
+                <div>
+                  <h4 class="absent" style="color: red;">Total Absent</h4>
+                  <li>{{ total_false_count }}</li>
+                </div>
+                <hr>
+                <div>
+                  <h3 style="color: {% if total_percentage < 50 %}red{% else %}green{% endif %};">Total Percentage</h3>
+                  <li style="color: {% if total_percentage < 50 %}red{% else %}green{% endif %};font: 6em sans-serif;">{{ total_percentage|floatformat:2  }}%</li>
+                </div>
+
+               
+            </div>
+        
+        </div>
+        
+    </div>
+  </div>
+  <script>
+    // Get the canvas element by its id
+    var ctx = document.getElementById('myDoughnutChart').getContext('2d');
+
+    // Create a doughnut chart
+    var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut', // Set the chart type to a doughnut chart
+        data: {
+            labels: ['Present', 'Absent'],
+            datasets: [{
+                label: 'Attendance Percentage',
+                data: [{{total_true_count}}, {{ total_false_count }}],
+                backgroundColor: ['green', 'red'],
+            }]
+        },
+        options: {
+            // You can customize doughnut chart options here
+        }
+    });
+</script>
+
+{% endblock %}

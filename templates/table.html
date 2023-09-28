@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    th,
+    td {
+        text-align: center;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Attendance Table</h4>
+                <p class="card-description">
+                <h5>{{ selected_date }}</h5>
+                </p>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Batch</th>
+                                <th>Hour 1</th>
+                                <th>Hour 2</th>
+                                <th>Hour 3</th>
+                                <th>Hour 4</th>
+                                <th>Hour 5</th>
+                                <th>Hour 6</th>
+                                <th>Hour 7</th>
+                                <th>Hour 8</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in attendance_data %}
+                            <tr>
+                                <td class="py-1">
+                                    <a href="{% url 'batch_attendance' batch=data.email_id__batch date=selected_date %}">{{ data.email_id__batch }} batch</a>
+                                </td>
+                                <td>{{ data.hour_1_count }}</td>
+                                <td>{{ data.hour_2_count }}</td>
+                                <td>{{ data.hour_3_count }}</td>
+                                <td>{{ data.hour_4_count }}</td>
+                                <td>{{ data.hour_5_count }}</td>
+                                <td>{{ data.hour_6_count }}</td>
+                                <td>{{ data.hour_7_count }}</td>
+                                <td>{{ data.hour_8_count }}</td>
+                                <td>{{ data.total_hour_count }}</td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="row">
+                        <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Pie chart</h4>
+                                    <div style="width: 50%; margin: 0 auto;">
+                                        <canvas id="myDoughnutChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Get the canvas element by its id
+    var ctx = document.getElementById('myDoughnutChart').getContext('2d');
+
+    // Create a doughnut chart
+    var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut', // Set the chart type to a doughnut chart
+        data: {
+            labels: ['Label 1', 'Label 3'],
+            datasets: [{
+                label: 'My Dataset',
+                data: [30, 25],
+                backgroundColor: ['red', 'green'],
+            }]
+        },
+        options: {
+            // You can customize doughnut chart options here
+        }
+    });
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+            <style>
+                th,
+                td {
+                  text-align: center;
+                }
+              
+                /* Style for the green tick */
+                .tick {
+                      color: green;
+                  }
+              
+                  /* Style for the red cross */
+                  .cross {
+                      color: red;
+                  }
+
+
+                  .info-container {
+                    display: flex;
+                    flex-wrap: wrap; /* Wrap to the next line if necessary */
+                  }
+
+                  .card-description {
+                      display: inline;
+                      margin-right: 10px;
+                      padding: 10px; /* Adjust as needed to add space between elements */
+                  }
+              
+              </style>
+
+
+          <div class="row">
+
+
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Batch: {{ batch }}</h4>
+                  <div class="info-container">
+                    <p class="card-description">
+                      Selected Batch:<code>{{ batch }}</code>
+                    </p>
+                    <p class="card-description">
+                      Selected Date:<code>{{ selected_date }}</code>
+                    </p>
+                    <p class="card-description">
+                      Student Count:<code>{{ student_count }}</code>
+                    </p>
+                  </div cla>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th>Student Email</th>
+                            <th>Hour 1</th>
+                            <th>Hour 2</th>
+                            <th>Hour 3</th>
+                            <th>Hour 4</th>
+                            <th>Hour 5</th>
+                            <th>Hour 6</th>
+                            <th>Hour 7</th>
+                            <th>Hour 8</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for record in attendance_records %}
+                        <tr>
+                            <td class="py-1"><a href="{% url 'student_detail' student_email=record.email_id.email_id %}">{{ record.email_id.email_id }}</a></td>
+                            <td class="{% if record.hour_1 %}tick{% else %}cross{% endif %}">{% if record.hour_1 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                            <td class="{% if record.hour_2 %}tick{% else %}cross{% endif %}">{% if record.hour_2 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                            <td class="{% if record.hour_3 %}tick{% else %}cross{% endif %}">{% if record.hour_3 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                            <td class="{% if record.hour_4 %}tick{% else %}cross{% endif %}">{% if record.hour_4 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                            <td class="{% if record.hour_5 %}tick{% else %}cross{% endif %}">{% if record.hour_5 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                            <td class="{% if record.hour_6 %}tick{% else %}cross{% endif %}">{% if record.hour_6 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                            <td class="{% if record.hour_7 %}tick{% else %}cross{% endif %}">{% if record.hour_7 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                            <td class="{% if record.hour_8 %}tick{% else %}cross{% endif %}">{% if record.hour_8 %}&#10004;{% else %}&#10008;{% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+
+                    
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+
+{% endblock %}
